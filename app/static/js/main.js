@@ -1,45 +1,53 @@
-document.getElementById('btn-recomendar').addEventListener('click', async () => {
-    const entrada = document.getElementById('entrada').value.trim();
-    const resultadoDiv = document.getElementById('resultado');
+// app/static/js/main.js
+const botao = document.getElementById('btn-recomendar');
+const entrada = document.getElementById('entrada');
+const resultado = document.getElementById('resultado');
+const sessionId = document.getElementById('session_id').value;
 
-    if (!entrada) {
-        resultadoDiv.innerHTML = '<p class="erro">Digite algo.</p>';
+botao.addEventListener('click', async () => {
+    const mensagem = entrada.value.trim();
+    if (!mensagem) {
+        // Exibe um aviso sutil usando a classe de erro (mas sem ícone de erro)
+        resultado.innerHTML = `<div class="mensagem-aviso">✍️ Digite algo para receber recomendações!</div>`;
         return;
     }
 
-    resultadoDiv.innerHTML = '<p>Buscando recomendações...</p>';
+    resultado.innerHTML = '<div class="mensagem-carregando">⏳ Pensando em boas indicações...</div>';
 
     try {
-        const response = await fetch('/api/recomendacao', {
+        const response = await fetch('/api/chat', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ entrada })
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: mensagem,
+                session_id: sessionId
+            })
         });
-        const data = await response.json();
 
-        if (data.erro) {
-            resultadoDiv.innerHTML = `<p class="erro">Erro: ${data.erro}</p>`;
+        const dados = await response.json();
+
+        // Se a resposta contém um erro (campo "error"), exibe a mensagem amigável
+        if (dados.error) {
+            // Usa a classe CSS .mensagem-erro
+            resultado.innerHTML = `<div class="mensagem-erro">⚠️ ${dados.error}</div>`;
             return;
         }
 
-        if (data.recomendacoes) {
-            let html = '<h2>Livros recomendados:</h2>';
-            data.recomendacoes.forEach(livro => {
-                html += `
-                    <div class="livro">
-                        <h3>${livro.titulo}</h3>
-                        <p><strong>Autor:</strong> ${livro.autor}</p>
-                        <p>${livro.justificativa}</p>
-                    </div>
-                `;
-            });
-            resultadoDiv.innerHTML = html;
-        } else if (data.recomendacoes_texto) {
-            // Fallback para texto bruto
-            resultadoDiv.innerHTML = `<pre>${data.recomendacoes_texto}</pre>`;
+        if (dados.response) {
+            // Converte quebras de linha para <br> (simples, mas funcional)
+            resultado.innerHTML = dados.response.replace(/\n/g, '<br>');
+        } else {
+            resultado.innerHTML = '<div class="mensagem-aviso">⚠️ Resposta vazia. Tente novamente.</div>';
         }
-    } catch (err) {
-        resultadoDiv.innerHTML = '<p class="erro">Falha na requisição.</p>';
-        console.error(err);
+    } catch (erro) {
+        // Erro de rede ou outro problema na comunicação
+        resultado.innerHTML = `
+            <div class="mensagem-erro">
+                ❌ Erro de conexão. Verifique sua internet e tente novamente.
+            </div>
+        `;
+        console.error('Erro na requisição:', erro);
     }
 });

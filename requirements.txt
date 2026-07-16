@@ -4,8 +4,5 @@ scikit-learn
 joblib
 pandas
 dotenv
-
-#Novas Bibliotecas
-google-genai      # Biblioteca oficial atualizads do Google para usar o Gemini
-python-dotenv     # Serve para ler o arquivo .env e proteger nossas chaves
-scikit-learn      # Biblioteca de Machine Learning para treinar nosso classificador de intenções
+google-adk
+python-dotenv

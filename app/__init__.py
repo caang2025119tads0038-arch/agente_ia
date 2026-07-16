@@ -1,12 +1,9 @@
+import os
 from flask import Flask
-from config import Config
+from dotenv import load_dotenv
 
-def create_app():
-    app = Flask(__name__)
-    app.config.from_object(Config)
+load_dotenv()
 
-    # registro das rotas
-    from app.routes import bp
-    app.register_blueprint(bp)
+app = Flask(__name__)
 
-    return app
+from app import routes

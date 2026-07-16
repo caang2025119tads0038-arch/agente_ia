@@ -1,66 +1,229 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+/* app/static/css/estilo.css */
+
+/* --- Importação de Fontes Vintage --- */
+/* Usaremos 'Playfair Display' para títulos (clássica e elegante)
+   e 'Special Elite' para corpo/inputs (estilo máquina de escrever) */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap');
+
+/* --- Reset Básico e Cores Globais --- */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
-.container {
-    max-width: 700px;
-    margin: 50px auto;
+body {
+    /* Cor de fundo: Papel Sépia Envelhecido Leve */
+    background-color: #f4ece1;
+    /* Adiciona uma textura sutil de papel granulado (opcional, mas recomendado) */
+    background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+    
+    font-family: 'Special Elite', 'Courier New', Courier, monospace;
+    color: #4a3b2a; /* Marrom escuro desgastado para o texto */
+    line-height: 1.6;
     padding: 20px;
-    background: white;
+}
+
+/* --- Container Principal --- */
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: #fffdf9; /* Fundo ligeiramente mais claro para o conteúdo */
+    padding: 40px;
+    
+    /* Bordas e Sombra Vintage estilo "Encadernação" */
+    border: 2px solid #a68c69;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 5px 5px 15px rgba(74, 59, 42, 0.2);
+    
+    /* Decoração lateral opcional que lembra um livro */
+    border-left: 15px solid #6f4e37; /* Marrom Couro */
+    position: relative;
 }
 
+/* Detalhe decorativo nas quinas do container (opcional) */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    bottom: 10px;
+    left: 10px;
+    border: 1px solid #dccdc0;
+    border-radius: 5px;
+    pointer-events: none; /* Garante que não atrapalhe cliques */
+}
+
+/* --- Títulos e Textos --- */
 h1 {
-    color: #333;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: #6f4e37; /* Marrom Couro */
     text-align: center;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    letter-spacing: 1px;
 }
 
+h1::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 3px;
+    background: #a68c69;
+    margin: 15px auto 25px;
+    border-radius: 2px;
+}
+
+p {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: #6d5a44;
+}
+
+/* --- Grupo de Entrada (Input e Botão) --- */
 .input-group {
     display: flex;
-    gap: 10px;
-    margin: 20px 0;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    flex-wrap: wrap; /* Melhora em telas menores */
 }
 
+/* --- Campo de Texto (Input) --- */
 input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
+    flex-grow: 1;
+    max-width: 500px;
+    padding: 15px 20px;
+    font-family: 'Special Elite', monospace;
+    font-size: 1rem;
+    
+    background-color: #fcf8f2;
+    border: 2px solid #c9b9a6;
     border-radius: 4px;
+    color: #4a3b2a;
+    
+    /* Sombra interna para dar efeito de profundidade */
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.05);
+    transition: border-color 0.3s ease;
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #4a90d9;
-    color: white;
+input[type="text"]:focus {
+    outline: none;
+    border-color: #6f4e37; /* Destaca a borda ao focar */
+    background-color: #fff;
+}
+
+/* Estilo do Placeholder */
+input[type="text"]::placeholder {
+    color: #a68c69;
+    opacity: 0.7;
+}
+
+/* --- Botão Recomendador --- */
+button#btn-recomendar {
+    padding: 15px 30px;
+    font-family: 'Playfair Display', serif;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    
+    /* Vermelho fosco envelhecido */
+    background-color: #8e443d; 
+    color: #f4ece1;
+    
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    
+    /* Sombra 3D suave */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.1s ease;
 }
 
-button:hover {
-    background-color: #357abd;
+button#btn-recomendar:hover {
+    background-color: #a3524b; /* Vermelho levemente mais claro */
 }
 
-.livro {
-    background: #f9f9f9;
-    padding: 15px;
-    margin: 10px 0;
-    border-left: 4px solid #4a90d9;
+button#btn-recomendar:active {
+    transform: translateY(1px); /* Efeito de clique */
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Área de Resultado (As respostas do Bibliotecário) --- */
+#resultado {
+    margin-top: 30px;
+    padding: 25px;
+    background-color: #fdfaf5;
+    
+    /* Borda tracejada sutil */
+    border: 1px dashed #c9b9a6;
     border-radius: 4px;
+    
+    font-size: 1.1rem;
+    color: #5d4b38;
+    
+    /* Garante que o Markdown renderizado pelo Gemini respeite parágrafos */
+    word-wrap: break-word;
 }
 
-.livro h3 {
-    margin-top: 0;
-    color: #333;
+/* Estilização para as recomendações em tópicos que o Gemini envia */
+#resultado ul {
+    list-style-type: square; /* Tópicos quadrados vintage */
+    margin-left: 30px;
+    margin-top: 15px;
 }
 
-.erro {
-    color: #d9534f;
-    font-weight: bold;
+#resultado li {
+    margin-bottom: 15px;
+}
+
+#resultado strong {
+    color: #6f4e37; /* Destaca o título do livro em Marrom Couro */
+}
+
+#resultado i {
+    color: #8e443d; /* Destaca o autor em Vermelho Desgastado */
+}
+
+/* --- NOVAS CLASSES PARA MENSAGENS DE ERRO, AVISO E CARREGAMENTO --- */
+
+/* Mensagem de erro (ex: cota excedida, erro inesperado) */
+.mensagem-erro {
+    background-color: #fff3f0;
+    border-left: 6px solid #8e443d; /* Vermelho envelhecido */
+    padding: 15px 20px;
+    border-radius: 4px;
+    color: #5d2e2a;
+    font-family: 'Special Elite', monospace;
+    font-size: 1.1rem;
+    margin: 10px 0;
+}
+
+/* Mensagem de aviso (ex: campo vazio, resposta vazia) */
+.mensagem-aviso {
+    background-color: #fcf6ea;
+    border-left: 6px solid #c9b9a6; /* Marrom claro */
+    padding: 15px 20px;
+    border-radius: 4px;
+    color: #6d5a44;
+    font-family: 'Special Elite', monospace;
+    font-size: 1.1rem;
+    margin: 10px 0;
+}
+
+/* Mensagem de carregamento */
+.mensagem-carregando {
+    color: #a68c69;
+    font-style: italic;
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Para quando o resultado estiver vazio, não mostrar borda */
+#resultado:empty {
+    display: none;
 }
