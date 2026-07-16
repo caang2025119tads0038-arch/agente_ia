@@ -6,3 +6,4 @@ pandas
 dotenv
 google-adk
 python-dotenv
+flask[async]
